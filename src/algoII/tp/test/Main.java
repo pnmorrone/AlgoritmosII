@@ -26,9 +26,8 @@ public class Main
 	{
 		DirectoryManager manager = new DirectoryManager();
 		manager.searchMusic();
-		
-			
-//		Session session=HibernateUtils.getSessionAnnotationFactory().getCurrentSession();
+
+        //		Session session=HibernateUtils.getSessionAnnotationFactory().getCurrentSession();
 //		session.beginTransaction();
 //		
 //		
