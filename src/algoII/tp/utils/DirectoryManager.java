@@ -1,4 +1,4 @@
-package algoII.tp.imple;
+package algoII.tp.utils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -7,8 +7,6 @@ import java.util.Map;
 
 import algoII.tp.model.AlbumModel;
 import algoII.tp.model.FilterModel;
-import algoII.tp.utils.FileUtils;
-import algoII.tp.utils.PropertiesHelper;
 
 public class DirectoryManager {
 

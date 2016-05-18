@@ -1,4 +1,4 @@
-package algoII.tp.imple;
+package algoII.tp.entities;
 
 import java.util.List;
 
@@ -16,22 +16,21 @@ import algoII.tp.def.Title;
 
 @Entity
 @Table(name="Label")
-public class LabelImpleTrucha implements Label
+public class LabelEntity 
 {
 	
 	private String name;
 	
-	private FilterImpleTrucha filter;
+	private FilterEntity filter;
 	
-	@Override
 	@ManyToOne
 	@JoinColumn(name="name_filter")
-	public FilterImpleTrucha getFilter()
+	public FilterEntity getFilter()
 	{
 		return filter;
 	}
 
-	public void setFilter(FilterImpleTrucha filter)
+	public void setFilter(FilterEntity filter)
 	{
 		this.filter=filter;
 	}
@@ -41,32 +40,18 @@ public class LabelImpleTrucha implements Label
 		this.name=name;
 	}
 
-	public LabelImpleTrucha(String name)
+	public LabelEntity(String name)
 	{
 		this.name = name;
 	}
 
 	@Id
 	@Column(name="name_label")
-	@Override
 	public String getName()
 	{
 		return name;
 	}
 	
-	@Transient
-	@Override
-	public List<Title> getTitles()
-	{
-		return null;
-	}
-	
-	@Transient
-	@Override
-	public List<String> getSublabels()
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 }

@@ -1,4 +1,4 @@
-package algoII.tp.imple;
+package algoII.tp.entities;
 
 import java.util.List;
 
@@ -14,22 +14,21 @@ import algoII.tp.def.Filter;
 
 @Entity
 @Table(name="Filter")
-public class FilterImpleTrucha implements Filter
+public class FilterEntity 
 {
 
 	private String name;
 	
-	private List<LabelImpleTrucha> labels;
+	private List<LabelEntity> labels;
 	
 	
-	public FilterImpleTrucha(String n)
+	public FilterEntity(String n)
 	{
 		name = n;
 	}
 
 	@Id
 	@Column(name="name_filter")
-	@Override
 	public String getName()
 	{
 		return name;
@@ -41,20 +40,18 @@ public class FilterImpleTrucha implements Filter
 		this.name=name;
 	}
 
-	public void setLabels(List<LabelImpleTrucha> labels)
+	public void setLabels(List<LabelEntity> labels)
 	{
 		this.labels=labels;
 	}
 
 	@OneToMany(cascade=CascadeType.ALL,mappedBy="filter")
-	@Override
-	public List<LabelImpleTrucha> getLabels()
+	public List<LabelEntity> getLabels()
 	{	
 		return this.labels;
 	}
 
-	@Override
-	public void addLabel(LabelImpleTrucha label)
+	public void addLabel(LabelEntity label)
 	{
 		label.setFilter(this);
 		this.labels.add(label);
