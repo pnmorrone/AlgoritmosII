@@ -1,6 +1,5 @@
 package algoII.tp.entities;
 
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,10 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
-import algoII.tp.def.Label;
-import algoII.tp.def.Title;
 
 
 @Entity
@@ -44,6 +40,14 @@ public class LabelEntity
 	{
 		this.name = name;
 	}
+	
+	
+	public LabelEntity(String name,FilterEntity filterEntity)
+	{
+		this.name = name;
+		this.filter=filterEntity;
+	}
+	
 
 	@Id
 	@Column(name="name_label")

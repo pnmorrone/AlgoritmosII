@@ -44,25 +44,22 @@ public class DirectoryManager {
 			if (FileUtils.isLittleImage(file)) {
 				album.setPathPicture(file.getAbsolutePath());
 			} else if (FileUtils.isInfo(file)) {
-				album = this.procesarInfo(file, album);
+				this.procesarInfo(file, album);
 			}
 		}
 		return album;
 	}
 
-	private AlbumModel procesarInfo(File f, AlbumModel album) {
+	private void procesarInfo(File f, AlbumModel album) {
 		Map<String, String> dic = new HashMap<String, String>();
 		dic.putAll(FileUtils.readFile(f));
-
 		album.setPathDisk(f.getParent());
 		album.setDiskName(dic.get("Tittle"));
 		album.addArtist(dic.get("Artist"));
-		album = addFiltersModel(album, dic);
-
-		return album;
+		 addFiltersModel(album, dic);
 	}
 
-	private AlbumModel addFiltersModel(AlbumModel album, Map<String, String> dic) {
+	private void addFiltersModel(AlbumModel album, Map<String, String> dic) {
 		String[] filtersKey = PropertiesHelper.filters();
 		for (String string : filtersKey) {
 			if (dic.get(string) != null) {
@@ -70,10 +67,9 @@ public class DirectoryManager {
 				album.addFilter(filter);
 			}
 		}
-		return album;
 	}
 
-	private void print(ArrayList<AlbumModel> albums) {
+	public void print(ArrayList<AlbumModel> albums) {
 		for (AlbumModel albumModel : albums) {
 			System.out.println("-----------------DISCO--------------------");
 			System.out.println("Los discos listados son: " + albumModel.getDiskName());
