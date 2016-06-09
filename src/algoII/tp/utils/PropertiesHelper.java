@@ -4,11 +4,14 @@ public class PropertiesHelper {
 
 	static PropertiesManager prop = new PropertiesManager();
 	private static final String pathKey = "path-albumsFile";
+	private static final String libraryMusic = "music-library-path";
 	private static final String delimiterKey = "delimiter"; 
 	private static final String separatorKey = "separator";
 	private static final String filtersKey = "filters";
 	private static final String littleImageKey = "littleImage";
 	private static final String imageDefaultKey = "imageNameDefault";
+	
+	
 	
 	public static String getValueForKey(String key){
 		return prop.getPropValues(key);
@@ -16,6 +19,10 @@ public class PropertiesHelper {
 	
 	public static String getPathsFile(){
 		return prop.getPropValues(pathKey);
+	}
+	
+	public static String getLibraryMusic(){
+		return prop.getPropValues(libraryMusic);
 	}
 	
 	public static String delimiterModelInfo(){

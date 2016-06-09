@@ -2,13 +2,15 @@ package algoII.tp.utils;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class FileUtils {
-
+	
+	
 	public static String getExtensionFile(File f) {
 		String name = f.getName();
 		int extensionIndex = name.lastIndexOf(".");

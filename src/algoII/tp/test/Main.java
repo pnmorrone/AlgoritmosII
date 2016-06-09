@@ -2,6 +2,8 @@ package algoII.tp.test;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -15,10 +17,12 @@ import algoII.tp.entities.FilterEntity;
 import algoII.tp.entities.LabelEntity;
 import algoII.tp.entities.TitleEntity;
 import algoII.tp.imple.LibraryImpleTrucha;
+import algoII.tp.imple.MusicFile;
 import algoII.tp.model.AlbumModel;
 import algoII.tp.model.FilterModel;
 import algoII.tp.utils.DirectoryManager;
 import algoII.tp.utils.HibernateUtils;
+import algoII.tp.utils.PropertiesHelper;
 
 public class Main
 {
@@ -32,13 +36,14 @@ public class Main
 		// Mostramos toda la info para guardar en la base de datos
 		// DirectoryManager manager = new DirectoryManager();
 		// manager.searchMusic();
-		DirectoryManager manager=new DirectoryManager();
+		DirectoryManager manager = new DirectoryManager();
+		
 		createBD(manager);
 	}
 
 	public static void createBD(DirectoryManager manager)
 	{
-		ArrayList<AlbumModel> albums=manager.searchMusic();
+		ArrayList<AlbumModel> albums = manager.searchMusic();
 
 		List<ArtistEntity> artistsPersistance=new ArrayList<ArtistEntity>();
 		List<TitleEntity> titlesPersistance=new ArrayList<TitleEntity>();
