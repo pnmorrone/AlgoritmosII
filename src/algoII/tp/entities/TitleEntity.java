@@ -5,49 +5,50 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-
-
 @Entity
 @Table(name="Title")
-public class TitleEntity 
+public class TitleEntity
 {
-	
+
 	@Id
+	@Column(name="id_title")
+	@GeneratedValue(strategy=GenerationType.AUTO)
+
+	private int id;
+
 	@Column(name="name_title")
 	private String name;
-	
+
 	@Column(name="path_title")
 	private String path;
 
-	@ManyToMany(cascade=CascadeType.ALL,mappedBy="titles")
+	@ManyToMany(cascade=CascadeType.ALL, mappedBy="titles")
 	private List<ArtistEntity> artists;
-	
-	@ManyToMany(cascade=CascadeType.ALL,mappedBy="titles")
+
+	@ManyToMany(cascade=CascadeType.ALL, mappedBy="titles")
 	private List<FilterEntity> filters;
-	
-	
+
 	public List<FilterEntity> getFilters()
 	{
 		return filters;
 	}
-
 
 	public void setFilters(List<FilterEntity> filters)
 	{
 		this.filters=filters;
 	}
 
-
 	public List<ArtistEntity> getArtists()
 	{
 		return artists;
 	}
 
-	
 	public void setArtists(List<ArtistEntity> artists)
 	{
 		this.artists=artists;
@@ -73,6 +74,19 @@ public class TitleEntity
 		this.path=path;
 	}
 
+	public int getId()
+	{
+		return id;
+	}
+
+	public void setId(int id)
+	{
+		this.id=id;
+	}
+
+	public TitleEntity(){
+		
+	}
 	
 	public TitleEntity(String name,String path,List<ArtistEntity> artists)
 	{
@@ -80,19 +94,19 @@ public class TitleEntity
 		this.path=path;
 		this.artists=artists;
 	}
-	
-	public TitleEntity(String name,String path,List<ArtistEntity> artists,List<FilterEntity>filters )
+
+	public TitleEntity(String name,String path,List<ArtistEntity> artists,List<FilterEntity> filters)
 	{
 		this.name=name;
 		this.path=path;
 		this.artists=artists;
 		this.filters=filters;
 	}
-	
-	public TitleEntity(String name,String path){
+
+	public TitleEntity(String name,String path)
+	{
 		this.name=name;
 		this.path=path;
 	}
-	
-	
+
 }

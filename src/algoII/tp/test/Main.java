@@ -2,8 +2,11 @@ package algoII.tp.test;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Set;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 import algoII.tp.def.Filter;
@@ -14,7 +17,10 @@ import algoII.tp.entities.ArtistEntity;
 import algoII.tp.entities.FilterEntity;
 import algoII.tp.entities.LabelEntity;
 import algoII.tp.entities.TitleEntity;
+import algoII.tp.imple.FilterImpleTrucha;
+import algoII.tp.imple.LabelImpleTrucha;
 import algoII.tp.imple.LibraryImpleTrucha;
+import algoII.tp.imple.TitleImpleTrucha;
 import algoII.tp.model.AlbumModel;
 import algoII.tp.model.FilterModel;
 import algoII.tp.utils.DirectoryManager;
@@ -34,6 +40,94 @@ public class Main
 		// manager.searchMusic();
 		DirectoryManager manager=new DirectoryManager();
 		createBD(manager);
+		LabelImpleTrucha x =new LabelImpleTrucha("Jazz");
+		List <Title> v=x.getTitles();
+		for (Title t : v){
+			System.out.println("name:"+t.getName()+ "    path:"+t.getPath());
+		}
+		
+		System.out.println("------------------");
+		LibraryImpleTrucha b= new LibraryImpleTrucha();
+		 List <Title> l2=b.getTitles();
+		
+		for (Title t : l2){
+			System.out.println("name:"+t.getName()+ "    path:"+t.getPath());
+		}
+		
+		List <Filter> l3=b.getFilters() ;
+		
+		for (Filter f : l3){			
+			System.out.println("|||||||||||||||");
+			System.out.println("name of filter:  "+f.getName());
+			List<Label> lab=f.getLabels();
+			for(Label l:lab){
+				System.out.println(l.getName());
+			}
+			
+			
+		}
+		
+		System.out.println(b.getFilter("Genre").getName());
+		System.out.println(b.getFilter("Instrument").getName());
+		System.out.println(b.getFilter("Year"));
+		
+		System.out.println("******************************");
+		for(Label l:b.getLabels(new FilterImpleTrucha("Genre"))){
+			System.out.println(l.getName());
+		}
+		
+		System.out.println("******************************");
+		for(Label l:b.getLabels(new FilterImpleTrucha("Instrument"))){
+			System.out.println(l.getName());
+
+		}
+		
+		System.out.println("******************************");
+		for(Label l:b.getLabels(new FilterImpleTrucha("Year"))){
+			System.out.println(l.getName());
+
+		}
+		System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+		System.out.println(b.getLabel(new FilterImpleTrucha("Genre"),"Blues").getName());
+		System.out.println(b.getLabel(new FilterImpleTrucha("Genre"),"Bolero & Latin").getName());
+		System.out.println(b.getLabel(new FilterImpleTrucha("Genre"),"Bossa Nova").getName());
+		System.out.println(b.getLabel(new FilterImpleTrucha("Genre"),"Brasil").getName());
+		System.out.println(b.getLabel(new FilterImpleTrucha("Genre"),"Cuba").getName());
+		System.out.println(b.getLabel(new FilterImpleTrucha("Genre"),"España").getName());
+		System.out.println(b.getLabel(new FilterImpleTrucha("Genre"),"Jazz").getName());
+		System.out.println(b.getLabel(new FilterImpleTrucha("Genre"),"Rock").getName());
+		System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+		System.out.println(b.getLabel(new FilterImpleTrucha("Instrument"),"Guitar").getName());
+		System.out.println(b.getLabel(new FilterImpleTrucha("Instrument"),"Piano").getName());
+		System.out.println(b.getLabel(new FilterImpleTrucha("Instrument"),"Saxophone").getName());
+		System.out.println(b.getLabel(new FilterImpleTrucha("Instrument"),"Vibraphone").getName());
+		System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+		System.out.println(b.getLabel(new FilterImpleTrucha("Year")," 1971").getName());
+		System.out.println(b.getLabel(new FilterImpleTrucha("Year"),"1957").getName());
+		System.out.println(b.getLabel(new FilterImpleTrucha("Year"),"1963").getName());
+
+		System.out.println("...................................");
+		
+		List <Title> titles=b.getTitles(new FilterImpleTrucha("Genre"),new LabelImpleTrucha("Jazz"));
+		System.out.println("All albums of jazz");
+		for(Title t : titles){
+			System.out.println(t.getName());
+		}
+		
+		
+		Title t = new TitleImpleTrucha("Esencia Romantica","C:/Users/Niko/UTN Algoritmos avanzados/ALBUMS/Trio Los Panchos/Esencia Romantica");
+		t.getAtts();
+		Hashtable<Filter,List<Label>> prueba=t.getAtts();		
+		Set<Filter> keys=prueba.keySet();
+		for(Filter f : keys){
+			System.out.println("filter key: " + f.getName());
+			List <Label> z=prueba.get(f);
+			for (Label l:z ){
+				System.out.println("label value:"+l.getName());
+			}
+
+		}
+		
 	}
 
 	public static void createBD(DirectoryManager manager)
@@ -73,27 +167,27 @@ public class Main
 				// filterModel.getFilterName();//Filter
 				// filterModel.getFilterValue();//Label
 				String filterName=filterModel.getFilterName();
-				filterEntity=filtersPersistance.stream().filter(x -> x.getName().equals(filterName)).findAny().orElse(null);
+				//1filterEntity=filtersPersistance.stream().filter(x -> x.getName().equals(filterName)).findAny().orElse(null);
 
-				if(filterEntity==null)
-				{
+				//if(filterEntity==null)2
+				//{3
 					filterEntity=new FilterEntity(filterName,new ArrayList<TitleEntity>(),new ArrayList<LabelEntity>());
 					title.getFilters().add(filterEntity);
 					filtersPersistance.add(filterEntity);
-				}
+			//	}4
 
 				LabelEntity labelEntity;
 				////////////////
 				String[] labels=filterModel.getFilterValue().split(";");
 				for(String label:labels)
 				{
-					labelEntity=labelsPersistance.stream().filter(x -> x.getName().equals(label)).findAny().orElse(null);
-					if(labelEntity==null)
-					{
+					//5labelEntity=labelsPersistance.stream().filter(x -> x.getName().equals(label)).findAny().orElse(null);
+					//6if(labelEntity==null)
+					//7{
 						labelEntity=new LabelEntity(label,filterEntity);
 						labelsPersistance.add(labelEntity);
 						filterEntity.getLabels().add(labelEntity);
-					}
+					//8}
 				}
 				///////////////////
 				filterEntity.getTitles().add(title);
@@ -111,15 +205,26 @@ public class Main
 		{
 			session.saveOrUpdate(titleEntity);
 		}
-
-		// for(ArtistEntity artistEntity:artistsPersistance)
-		// {
-		// session.saveOrUpdate(artistEntity);
-		//
-		// }
 		session.getTransaction().commit();
-		//session.close();
 
 	}
 
 }
+
+/* para preguntar
+ * select * from title_artist;
+select artist.name_artist as "name of artist",
+		title.name_title as "name of title"
+	from  artist inner join title_artist on title_artist.id_artist = artist.id_artist
+	inner join title on title_artist.id_title=title.id_title;
+	
+	
+select *
+	from  title inner join title_filter on title_filter.id_title = title.id_title
+	inner join filter on title_filter.id_filter=filter.id_filter;
+	
+select * from filter inner join label on filter.id_filter = label.id_filter;	
+	
+select * from label;
+ * 
+ * */
