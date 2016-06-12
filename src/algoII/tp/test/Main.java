@@ -2,7 +2,10 @@ package algoII.tp.test;
 
 import java.io.File;
 import java.util.ArrayList;
+
 import java.util.Hashtable;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -21,10 +24,12 @@ import algoII.tp.imple.FilterImpleTrucha;
 import algoII.tp.imple.LabelImpleTrucha;
 import algoII.tp.imple.LibraryImpleTrucha;
 import algoII.tp.imple.TitleImpleTrucha;
+import algoII.tp.imple.MusicFile;
 import algoII.tp.model.AlbumModel;
 import algoII.tp.model.FilterModel;
 import algoII.tp.utils.DirectoryManager;
 import algoII.tp.utils.HibernateUtils;
+import algoII.tp.utils.PropertiesHelper;
 
 public class Main
 {
@@ -35,10 +40,8 @@ public class Main
 
 	{
 
-		// Mostramos toda la info para guardar en la base de datos
-		// DirectoryManager manager = new DirectoryManager();
-		// manager.searchMusic();
-		DirectoryManager manager=new DirectoryManager();
+		DirectoryManager manager = new DirectoryManager();
+		
 		createBD(manager);
 		LabelImpleTrucha x =new LabelImpleTrucha("Jazz");
 		List <Title> v=x.getTitles();
@@ -132,7 +135,7 @@ public class Main
 
 	public static void createBD(DirectoryManager manager)
 	{
-		ArrayList<AlbumModel> albums=manager.searchMusic();
+		ArrayList<AlbumModel> albums = manager.searchMusic();
 
 		List<ArtistEntity> artistsPersistance=new ArrayList<ArtistEntity>();
 		List<TitleEntity> titlesPersistance=new ArrayList<TitleEntity>();
@@ -164,32 +167,25 @@ public class Main
 
 			for(FilterModel filterModel:filterOfAlbum)
 			{
-				// filterModel.getFilterName();//Filter
-				// filterModel.getFilterValue();//Label
-				String filterName=filterModel.getFilterName();
-				//1filterEntity=filtersPersistance.stream().filter(x -> x.getName().equals(filterName)).findAny().orElse(null);
 
-				//if(filterEntity==null)2
-				//{3
+				String filterName=filterModel.getFilterName();
+
 					filterEntity=new FilterEntity(filterName,new ArrayList<TitleEntity>(),new ArrayList<LabelEntity>());
 					title.getFilters().add(filterEntity);
-					filtersPersistance.add(filterEntity);
-			//	}4
+	
 
 				LabelEntity labelEntity;
-				////////////////
+
 				String[] labels=filterModel.getFilterValue().split(";");
 				for(String label:labels)
 				{
-					//5labelEntity=labelsPersistance.stream().filter(x -> x.getName().equals(label)).findAny().orElse(null);
-					//6if(labelEntity==null)
-					//7{
+
 						labelEntity=new LabelEntity(label,filterEntity);
 						labelsPersistance.add(labelEntity);
 						filterEntity.getLabels().add(labelEntity);
-					//8}
+				
 				}
-				///////////////////
+		
 				filterEntity.getTitles().add(title);
 			}
 
@@ -211,20 +207,4 @@ public class Main
 
 }
 
-/* para preguntar
- * select * from title_artist;
-select artist.name_artist as "name of artist",
-		title.name_title as "name of title"
-	from  artist inner join title_artist on title_artist.id_artist = artist.id_artist
-	inner join title on title_artist.id_title=title.id_title;
-	
-	
-select *
-	from  title inner join title_filter on title_filter.id_title = title.id_title
-	inner join filter on title_filter.id_filter=filter.id_filter;
-	
-select * from filter inner join label on filter.id_filter = label.id_filter;	
-	
-select * from label;
- * 
- * */
+

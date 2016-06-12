@@ -5,12 +5,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import algoII.tp.imple.MusicFile;
 import algoII.tp.model.AlbumModel;
 import algoII.tp.model.FilterModel;
 
 public class DirectoryManager {
 
 	public ArrayList<AlbumModel> searchMusic() {
+		
+		this.createOrUpdateFile();
+		
 		File f = new File(PropertiesHelper.getPathsFile());
 		ArrayList<String> paths = FileUtils.readStringFile(f);
 		ArrayList<AlbumModel> albumList = new ArrayList<AlbumModel>();
@@ -34,6 +38,12 @@ public class DirectoryManager {
 		return albumList;
 	}
 
+	public void createOrUpdateFile(){
+		MusicFile mf = new MusicFile();
+		mf.createOrUpdateFile();
+		mf.printTree(mf.getArray());
+	}
+	
 	private AlbumModel readPath(String path) {
 
 		File f = new File(path);
