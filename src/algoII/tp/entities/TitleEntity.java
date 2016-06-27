@@ -21,7 +21,6 @@ public class TitleEntity
 	@GeneratedValue(strategy=GenerationType.AUTO)
 
 	private int id;
-
 	@Column(name="name_title")
 	private String name;
 

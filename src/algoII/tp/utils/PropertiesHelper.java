@@ -10,6 +10,7 @@ public class PropertiesHelper {
 	private static final String filtersKey = "filters";
 	private static final String littleImageKey = "littleImage";
 	private static final String imageDefaultKey = "imageNameDefault";
+	private static final String sublabelsKey = "sublabels";
 	
 	
 	
@@ -54,5 +55,11 @@ public class PropertiesHelper {
 			}
 		}
 		return false;
+	}
+	
+	public static String[] subLabels(){
+		String sl = prop.getPropValues(sublabelsKey);
+		String[] sublabels = sl.split(delimiterModelInfo());
+		return sublabels;
 	}
 }

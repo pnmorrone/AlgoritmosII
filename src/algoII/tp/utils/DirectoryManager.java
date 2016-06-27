@@ -24,17 +24,6 @@ public class DirectoryManager {
 		}
 		this.print(albumList);
 		
-		// Descomentar para ver como imprimir
-		// for (AlbumModel albumModel : albumList) {
-		// System.out.println("Los discos listados son: " +
-		// albumModel.getDiskName());
-		// ArrayList<FilterModel> filters = albumModel.getFilters();
-		// for (FilterModel filterModel : filters) {
-		// System.out.println("Los filtros son: " + filterModel.getFilterName()
-		// + " " + filterModel.getFilterValue());
-		// }
-		// }
-
 		return albumList;
 	}
 
@@ -70,15 +59,33 @@ public class DirectoryManager {
 	}
 
 	private void addFiltersModel(AlbumModel album, Map<String, String> dic) {
-		String[] filtersKey = PropertiesHelper.filters();
-		for (String string : filtersKey) {
-			if (dic.get(string) != null) {
-				FilterModel filter = new FilterModel(string, dic.get(string));
-				album.addFilter(filter);
+		String[] filterskey = PropertiesHelper.filters();
+		
+		for (String filter : filterskey) {
+			if (dic.get(filter) != null) {
+				if(!this.isLabelComposed(dic.get(filter))){
+					album.addFilter(this.returnLabelOrsSublabel(filter, dic.get(filter)));
+				}else{
+					ArrayList<FilterModel> afm = this.procesarFiltro(dic, filter);
+					for (FilterModel filterModel : afm) {
+						album.addFilter(filterModel);
+					}
+				}
 			}
 		}
 	}
-
+	
+	private Boolean isSubLabel(String value){
+		String[] sl = PropertiesHelper.subLabels();
+		Boolean isSubLabel = false;
+		for (String s : sl) {
+			if (value.equals(s)) {
+				isSubLabel = true;
+			}
+		}
+		return isSubLabel;
+	}
+	
 	public void print(ArrayList<AlbumModel> albums) {
 		for (AlbumModel albumModel : albums) {
 			System.out.println("-----------------DISCO--------------------");
@@ -92,12 +99,41 @@ public class DirectoryManager {
 			ArrayList<FilterModel> filters = albumModel.getFilters();
 			System.out.println("-------------FILTROS-------------");
 			for (FilterModel filterModel : filters) {
-				System.out.println(
-						"Los filtros son: " + filterModel.getFilterName() + " " + filterModel.getFilterValue());
+				if(!filterModel.getSubLabel().isEmpty()){
+					System.out.println(
+								"El filtro: " + filterModel.getFilterName() + " con label : " + filterModel.getFilterValue() + " y sublabel:  " + filterModel.getSubLabel());	
+				}
+				else{
+					System.out.println(
+							"El filtro: " + filterModel.getFilterName() + " con label : " + filterModel.getFilterValue());
+				}
+				
+				
 			}
 			System.out.println("-----------FIN FILTROS-----------");
 			System.out.println("--------------FIN DISCO--------------------");
 		}
 	}
-
+	
+	private Boolean isLabelComposed(String value){
+		return value.split(PropertiesHelper.delimiterModelInfo()).length > 1;
+	}
+	
+	private FilterModel returnLabelOrsSublabel(String filter, String label){
+		if(this.isSubLabel(label)){
+			return new FilterModel(label);
+		}else{
+			return new FilterModel(filter,label);
+		}
+	}
+	
+	private ArrayList<FilterModel> procesarFiltro(Map<String, String> dic, String filter){
+		ArrayList<FilterModel> afm = new ArrayList<FilterModel>();
+		for (String f : dic.get(filter).split(PropertiesHelper.delimiterModelInfo())) {
+			afm.add(this.returnLabelOrsSublabel(filter, f));
+		}
+		return afm;
+	}
+	
+	
 }
