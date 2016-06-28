@@ -2,8 +2,10 @@ package algoII.tp.utils;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -61,8 +63,10 @@ public class FileUtils {
 		Map<String, String> dictionary = new HashMap<String, String>();
 
 		try {
-			FileReader inputFile = new FileReader(f);
-			BufferedReader bufferReader = new BufferedReader(inputFile);
+			
+			FileInputStream fis = new FileInputStream(f);
+			InputStreamReader is = new InputStreamReader(fis, "ISO-8859-1");
+			BufferedReader bufferReader = new BufferedReader(is);
 
 			String line;
 			while ((line = bufferReader.readLine()) != null) {

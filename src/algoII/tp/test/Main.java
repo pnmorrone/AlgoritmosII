@@ -40,8 +40,9 @@ public class Main
 
 	{
 
+		// Mostramos toda la info para guardar en la base de datos
+		// DirectoryManager manager = new DirectoryManager();
 		DirectoryManager manager = new DirectoryManager();
-		
 		createBD(manager);
 		LabelImpleTrucha x =new LabelImpleTrucha("Jazz");
 		List <Title> v=x.getTitles();
@@ -96,7 +97,7 @@ public class Main
 		System.out.println(b.getLabel(new FilterImpleTrucha("Genre"),"Bossa Nova").getName());
 		System.out.println(b.getLabel(new FilterImpleTrucha("Genre"),"Brasil").getName());
 		System.out.println(b.getLabel(new FilterImpleTrucha("Genre"),"Cuba").getName());
-		System.out.println(b.getLabel(new FilterImpleTrucha("Genre"),"España").getName());
+		System.out.println(b.getLabel(new FilterImpleTrucha("Genre"),"Espaï¿½a").getName());
 		System.out.println(b.getLabel(new FilterImpleTrucha("Genre"),"Jazz").getName());
 		System.out.println(b.getLabel(new FilterImpleTrucha("Genre"),"Rock").getName());
 		System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
@@ -204,7 +205,6 @@ public class Main
 		session.getTransaction().commit();
 
 	}
-
 }
 
 
