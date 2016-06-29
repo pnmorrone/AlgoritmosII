@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import algoII.tp.imple.MusicFile;
+import algoII.tp.model.Album;
 import algoII.tp.model.AlbumModel;
 import algoII.tp.model.FilterModel;
 
@@ -23,6 +24,10 @@ public class DirectoryManager {
 			albumList.add(this.readPath(path));
 		}
 		this.print(albumList);
+		
+		Album a = new Album(albumList);
+		SaveModel sm = new SaveModel(a);
+		sm.serializeModel();
 		
 		return albumList;
 	}

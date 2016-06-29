@@ -8,43 +8,41 @@ import org.hibernate.Session;
 
 import algoII.tp.def.Filter;
 import algoII.tp.def.Label;
+import algoII.tp.model.AlbumModel;
+import algoII.tp.model.FilterModel;
 import algoII.tp.utils.HibernateUtils;
+import algoII.tp.utils.SaveModel;
 
 public class FilterImpleTrucha implements Filter
 {
-	private String name;
+	private ArrayList<AlbumModel> am;
 	
-	public FilterImpleTrucha(String n)
+	public FilterImpleTrucha()
 	{
-		name = n;
-	}
-
-	@Override
-	public String getName()
-	{
-		return name;
+		SaveModel sm = new SaveModel();
+		this.setAm(sm.deserializeModel().getArray());
 	}
 
 	@Override
 	public List<Label> getLabels()
 	{
-		Session session = HibernateUtils.getSessionAnnotationFactory().getCurrentSession();
-		session.beginTransaction();
-		Query query = session
-				.createQuery("select distinct L.name from FilterEntity F "
-						+ "inner join F.labels L where F.name = "
-						+ "'"+this.name+"'");
+		List<Label> lala = null;
+		
+		for (AlbumModel albumModel : am) {
+			for (FilterModel filter : albumModel.getFilters()) {
+//				lala.addAll(filter.getFilterName());
+			}
+		};
+		
+		return lala;
+	}
 
-		List<String> list= query.list();
-		List <Label>labels=null;
-		if(list!=null &&!list.isEmpty()){
-			labels = new ArrayList<Label>(); 
-		}
-		for (String name :list){
-			Label label = new LabelImpleTrucha(name);
-			labels.add(label);
-		}
-		return labels;		
+	public ArrayList<AlbumModel> getAm() {
+		return am;
+	}
+
+	public void setAm(ArrayList<AlbumModel> am) {
+		this.am = am;
 	}
 
 }

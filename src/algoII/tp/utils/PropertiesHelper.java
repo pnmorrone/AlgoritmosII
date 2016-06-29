@@ -11,7 +11,7 @@ public class PropertiesHelper {
 	private static final String littleImageKey = "littleImage";
 	private static final String imageDefaultKey = "imageNameDefault";
 	private static final String sublabelsKey = "sublabels";
-	
+	private static final String modelPathKey = "model-path";
 	
 	
 	public static String getValueForKey(String key){
@@ -61,5 +61,9 @@ public class PropertiesHelper {
 		String sl = prop.getPropValues(sublabelsKey);
 		String[] sublabels = sl.split(delimiterModelInfo());
 		return sublabels;
+	}
+	
+	public static String getModelPath(){
+		return prop.getPropValues(modelPathKey);
 	}
 }

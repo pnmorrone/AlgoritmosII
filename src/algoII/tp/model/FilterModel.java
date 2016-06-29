@@ -1,7 +1,13 @@
 package algoII.tp.model;
 
-public class FilterModel {
+import java.io.Serializable;
 
+public class FilterModel implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String filterName; //Genre
 	private String filterValue; //Internacional
 	private String sublabels; // Brasil
@@ -48,5 +54,14 @@ public class FilterModel {
 	public void setSubLabel(String value){
 		this.sublabels = value;
 	}
-
+	
+	@Override
+	public String toString(){
+		return new StringBuffer(" filterName : ")
+		    	   .append(this.filterName)
+		    	   .append(" filterValue : ")
+		    	   .append(this.filterValue)
+		    	   .append(" subLabel : ").toString();
+	}
+	
 }

@@ -1,12 +1,17 @@
 package algoII.tp.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 //import java.util.Map;
 
 import algoII.tp.utils.PropertiesHelper;
 
-public class AlbumModel {
+public class AlbumModel implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String diskName;
 	private ArrayList<String> artists;
 	private String pathDisk;
