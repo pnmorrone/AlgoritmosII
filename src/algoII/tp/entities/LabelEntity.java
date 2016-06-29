@@ -1,6 +1,10 @@
 package algoII.tp.entities;
 
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
@@ -75,6 +80,36 @@ public class LabelEntity
 		this.filter=filterEntity;
 	}
 	
+	
+
+	private LabelEntity label;
+
+
+	
+	private Set<LabelEntity> labels = new HashSet<LabelEntity>();
+
+	@ManyToOne(cascade={CascadeType.ALL})
+	@JoinColumn(name="superlabel_id")
+	public LabelEntity getLabel()
+	{
+		return label;
+	}
+
+	public void setLabel(LabelEntity label)
+	{
+		this.label=label;
+	}
+	
+	@OneToMany(mappedBy="label")
+	public Set<LabelEntity> getLabels()
+	{
+		return labels;
+	}
+
+	public void setLabels(Set<LabelEntity> labels)
+	{
+		this.labels=labels;
+	}
 
 
 	

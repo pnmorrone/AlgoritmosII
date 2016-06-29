@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -95,11 +96,12 @@ public class Main
 		System.out.println(b.getLabel(new FilterImpleTrucha("Genre"),"Blues").getName());
 		System.out.println(b.getLabel(new FilterImpleTrucha("Genre"),"Bolero & Latin").getName());
 		System.out.println(b.getLabel(new FilterImpleTrucha("Genre"),"Bossa Nova").getName());
-		System.out.println(b.getLabel(new FilterImpleTrucha("Genre"),"Brasil").getName());
-		System.out.println(b.getLabel(new FilterImpleTrucha("Genre"),"Cuba").getName());
-		System.out.println(b.getLabel(new FilterImpleTrucha("Genre"),"Espa�a").getName());
+		//System.out.println(b.getLabel(new FilterImpleTrucha("Genre"),"Brasil").getName());
+		//System.out.println(b.getLabel(new FilterImpleTrucha("Genre"),"Cuba").getName());
+		//System.out.println(b.getLabel(new FilterImpleTrucha("Genre"),"Espa�a").getName());
 		System.out.println(b.getLabel(new FilterImpleTrucha("Genre"),"Jazz").getName());
 		System.out.println(b.getLabel(new FilterImpleTrucha("Genre"),"Rock").getName());
+		System.out.println(b.getLabel(new FilterImpleTrucha("Genre"),"Musica del Mundo").getName());
 		System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
 		System.out.println(b.getLabel(new FilterImpleTrucha("Instrument"),"Guitar").getName());
 		System.out.println(b.getLabel(new FilterImpleTrucha("Instrument"),"Piano").getName());
@@ -111,6 +113,29 @@ public class Main
 		System.out.println(b.getLabel(new FilterImpleTrucha("Year"),"1963").getName());
 
 		System.out.println("...................................");
+		System.out.println("...................................");
+		System.out.println("...................................");
+		System.out.println("...................................");
+
+		List <Label> testLabel=  b.getLabels(new FilterImpleTrucha("Genre"));
+		
+			for (Label l:testLabel){
+				System.out.println("label:"+l.getName());
+				List<String> nameSublabels=l.getSublabels();
+				 for(String sublabels:nameSublabels){
+					 System.out.println("sublabel:"+sublabels);
+				 }
+					System.out.println("...................................");
+					System.out.println("...................................");
+					System.out.println("...................................");
+					System.out.println("...................................");
+
+			}
+
+
+		
+		
+		
 		
 		List <Title> titles=b.getTitles(new FilterImpleTrucha("Genre"),new LabelImpleTrucha("Jazz"));
 		System.out.println("All albums of jazz");
@@ -168,14 +193,16 @@ public class Main
 
 			for(FilterModel filterModel:filterOfAlbum)
 			{
-
+			
+			
+				
 				String filterName=filterModel.getFilterName();
 
 					filterEntity=new FilterEntity(filterName,new ArrayList<TitleEntity>(),new ArrayList<LabelEntity>());
 					title.getFilters().add(filterEntity);
 	
 
-				LabelEntity labelEntity;
+				LabelEntity labelEntity=null;
 
 				String[] labels=filterModel.getFilterValue().split(";");
 				for(String label:labels)
@@ -184,9 +211,20 @@ public class Main
 						labelEntity=new LabelEntity(label,filterEntity);
 						labelsPersistance.add(labelEntity);
 						filterEntity.getLabels().add(labelEntity);
-				
+						
 				}
-		
+				//XXX
+				LabelEntity sublabelEntity;
+				String sublabels=filterModel.getSubLabel();
+				if(sublabels!=null && !sublabels.equals("")){
+					sublabelEntity=new LabelEntity(sublabels,filterEntity);
+					sublabelEntity.setLabel(labelEntity);
+					labelEntity.setLabels(new HashSet<LabelEntity>());
+					labelEntity.getLabels().add(sublabelEntity);		
+					filterEntity.getLabels().add(sublabelEntity);
+
+				}			
+				
 				filterEntity.getTitles().add(title);
 			}
 

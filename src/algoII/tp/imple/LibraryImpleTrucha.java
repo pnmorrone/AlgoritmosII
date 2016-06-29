@@ -80,7 +80,8 @@ public class LibraryImpleTrucha implements Library
 		Session session = HibernateUtils.getSessionAnnotationFactory().getCurrentSession();
 		session.beginTransaction();
 		Query query = session.createQuery(" select distinct L.name from LabelEntity L "
-				+ "inner join L.filter F where F.name = " +"'"+f.getName()+"'");
+				+ "inner join L.filter F where F.name = " +"'"+f.getName()+"'"
+				+" and "+"L.label is null");
 		List <String> labelEntities= query.list();
 		List <Label> labels=null;
 		if(labelEntities!=null && !labelEntities.isEmpty()){			

@@ -8,6 +8,7 @@ import org.hibernate.Session;
 
 import algoII.tp.def.Label;
 import algoII.tp.def.Title;
+import algoII.tp.entities.LabelEntity;
 import algoII.tp.entities.TitleEntity;
 import algoII.tp.utils.HibernateUtils;
 
@@ -65,8 +66,16 @@ public class LabelImpleTrucha implements Label
 	@Override
 	public List<String> getSublabels()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		Session session=HibernateUtils.getSessionAnnotationFactory().getCurrentSession();
+		session.beginTransaction();
+		Query query=session.createQuery("select distinct SL.name from LabelEntity as L INNER JOIN L.labels as SL WHERE L.name = "+"'"+this.name+"'");		
+		List<String> sublabels=query.list();
+//		List <String> list=new ArrayList<String>();
+//		for(LabelEntity sublabel:sublabels)
+//		{
+//			list.add(sublabel.getName());
+//		}
+		return sublabels;	
 	}
 
 }
